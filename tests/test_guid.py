@@ -1,8 +1,14 @@
 from unittest import mock
 
+import os
+import tempfile
+
 import pytest
 
 import guid
+
+
+guid.FILEPATH = os.path.join(tempfile.gettempdir(), 'guid.txt')
 
 
 def test_read():
