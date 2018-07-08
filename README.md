@@ -1,4 +1,5 @@
 # HorribleSubs Hourly Notifier
+[![Build Status](https://travis-ci.org/Fawers/horriblesubs-hourly-notifier.svg?branch=master)](https://travis-ci.org/Fawers/horriblesubs-hourly-notifier)
 
 First things first: [here](https://t.me/horriblesubs_hourly_releases) is the Telegram channel.
 Tune in for the latest updates.
