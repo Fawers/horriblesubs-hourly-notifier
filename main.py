@@ -54,7 +54,11 @@ def format_dailies(releases):
 
 
 if __name__ == '__main__':
-    releases = hourly_releases()
+    if 'daily' in os.sys.argv:
+        releases = format_dailies(daily_releases())
+
+    else:
+        releases = hourly_releases()
 
     if releases:
         bot.send_to_channel('\n'.join(releases))
