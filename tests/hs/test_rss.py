@@ -1,5 +1,3 @@
-import os
-from xml.etree import ElementTree
 from unittest.mock import MagicMock, patch
 
 import requests
@@ -8,14 +6,12 @@ import hs.rss
 
 
 @patch('requests.get')
-def test_parse(request):
-    with open(os.path.join('tests', 'templates', 'rss.xml')) as f:
-        expected_rss = f.read()
-
+def test_parse(get: MagicMock, rss_xml_raw):
     response = MagicMock(requests.Response)
-    request.return_value = response
-    response.text = expected_rss
+    get.return_value = response
+    response.text = rss_xml_raw
     rss = hs.rss.parse()
-    response.raise_for_status.assert_called_once()
 
-    assert ElementTree.tostring(rss).decode() == expected_rss
+    get.assert_called_once_with(hs.rss.URL)
+    response.raise_for_status.assert_called_once()
+    assert len(rss.findall('.//item')) == 50
