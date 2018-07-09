@@ -12,6 +12,7 @@ Tune in for the latest updates.
 | Idea |
 | Contributing |
 | Limitations |
+| Running |
 | Tests |
 | Misc |
 
@@ -57,6 +58,12 @@ fork, checkout to new branch, code, test, (or test, and then code), PR.
 
 ## Limitations
 The code runs on a machine running CentOS with Python 3.4. In case you want to contribute, you just have to keep that in mind.
+
+## Running
+Two environment variables are needed in order to run [self](#): `TGBOT` and `TGCHANNEL`, where:
+
+* `TGBOT` is the Telegram bot token;
+* `TGCHANNEL` is the Telegram public channel `@username`.
 
 ## Tests
 ```sh
