@@ -1,8 +1,9 @@
+import os
 import re
 from itertools import takewhile
 from xml.etree.ElementTree import Element
 
-import hs.rss
+import hs
 import guid as guidfile
 from telegram import bot
 
@@ -31,7 +32,25 @@ def hourly_releases():
 
 
 def daily_releases():
-    pass
+    # this function MUST run ONLY at 00:00 PST/PDT, or whatever timezone HorribleSubs is in.
+    soup = hs.frontpage.parse()
+    schedule = soup.select_one('table.schedule-table')
+    releases = []
+
+    for release_data in schedule.select('td'):
+        if 'schedule-widget-show' in release_data['class']:
+            a = release_data.select_one('a')
+            data = {'title': a.text, 'url': a.get('href', '')}
+
+        elif 'schedule-widget-time' in release_data['class']:
+            data['time'] = release_data.text
+            releases.append(data)
+
+    return releases
+
+
+def format_dailies(releases):
+    return [f"[{r['title']}](https://horriblesubs.info{r['url']}) in {r['time']}" for r in releases]
 
 
 if __name__ == '__main__':
