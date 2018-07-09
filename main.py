@@ -50,12 +50,12 @@ def daily_releases():
 
 
 def format_dailies(releases):
-    return [f"[{r['title']}](https://horriblesubs.info{r['url']}) in {r['time']}" for r in releases]
+    return [f"[{r['title']}](https://horriblesubs.info{r['url']}) in {r['time'].replace(':', 'h')}m" for r in releases]
 
 
 if __name__ == '__main__':
     if 'daily' in os.sys.argv:
-        releases = format_dailies(daily_releases())
+        releases = ['Releases in the next 24 hours:'] + format_dailies(daily_releases())
 
     else:
         releases = hourly_releases()

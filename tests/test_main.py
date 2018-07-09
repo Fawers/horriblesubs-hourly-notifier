@@ -56,8 +56,8 @@ def test_daily_releases_return_all_entries(frontpage_html_raw):
 
 
 @pytest.mark.parametrize('input,expected', [
-    ([{'title': 'Island', 'url': '/shows/island', 'time': '07:30'}], ['[Island](https://horriblesubs.info/shows/island) in 07:30']),
-    ([{'title': 'Gintama', 'url': '/shows/gintama', 'time': '11:00'}], ['[Gintama](https://horriblesubs.info/shows/gintama) in 11:00'])
+    ([{'title': 'Island', 'url': '/shows/island', 'time': '07:30'}], ['[Island](https://horriblesubs.info/shows/island) in 07h30m']),
+    ([{'title': 'Gintama', 'url': '/shows/gintama', 'time': '11:00'}], ['[Gintama](https://horriblesubs.info/shows/gintama) in 11h00m'])
 ])
 def test_format_dailies(input, expected):
     assert main.format_dailies(input) == expected
