@@ -13,13 +13,13 @@ def rss_xml(rss_xml_raw):
 
 @pytest.fixture(scope='session')
 def rss_xml_raw():
-    with open(os.path.join('tests', 'templates', 'rss.xml')) as f:
+    with open(os.path.join('tests', 'templates', 'rss.xml.template')) as f:
         return f.read()
 
 
 @pytest.fixture(scope='session')
 def frontpage_html_raw():
-    with open(os.path.join('tests', 'templates', 'frontpage.html')) as f:
+    with open(os.path.join('tests', 'templates', 'frontpage.html.template')) as f:
         return f.read()
 
 
