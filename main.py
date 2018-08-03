@@ -8,7 +8,7 @@ import guid as guidfile
 from telegram import bot
 
 
-PATTERN = re.compile(r'^\[HorribleSubs\] (?P<title>.*?) \[720p\]\.mkv$')
+PATTERN = re.compile(r'^\[HorribleSubs\] (?P<title>.*?) \[720p\](?:\.mkv| \(Batch\))$')
 
 
 def determine_last_show(rss: Element, guid: str) -> Element:
