@@ -11,13 +11,14 @@ import pytest
     ('[HorribleSubs] Hyakuren no Haou to Seiyaku no Valkyria - 01 [720p].mkv', 'Hyakuren no Haou to Seiyaku no Valkyria - 01'),
     ('[HorribleSubs] Persona 5 The Animation - 14 [720p].mkv', 'Persona 5 The Animation - 14'),
     ('[HorribleSubs] Hataraku Saibou - 01 [720p].mkv', 'Hataraku Saibou - 01'),
-    ('[HorribleSubs] Darling in the FranXX - 24 [720p].mkv', 'Darling in the FranXX - 24')
+    ('[HorribleSubs] Darling in the FranXX - 24 [720p].mkv', 'Darling in the FranXX - 24'),
+    ('[HorribleSubs] Sword Gai The Animation S2 (01-12) [720p] (Batch)', 'Sword Gai The Animation S2 (01-12)')
 ])
 def test_pattern(input, expected):
     assert main.PATTERN.match(input).group('title') == expected
 
 
-@patch('guid.read', return_value='BEETJVI3T3AXASP6KGZGVZK7IHLTA7ZO')
+@patch('guid.read', return_value='YBHKMWWD7UDXBB24C7Z6CV325XUU3VKQ')
 def test_hourly_releases_returns_empty_list(mock, rss_xml):
     with patch('hs.rss.parse', return_value=rss_xml):
         assert len(main.hourly_releases()) == 0
@@ -28,17 +29,17 @@ def test_hourly_releases_returns_empty_list(mock, rss_xml):
 def test_hourly_releases_returns_all_entries(mock, rss_xml):
     with patch('hs.rss.parse', return_value=rss_xml):
         releases = main.hourly_releases()
-        assert len(releases) == 50
-        assert releases[:3] == ['Ongaku Shoujo - 01', 'Hyakuren no Haou to Seiyaku no Valkyria - 01', 'Persona 5 The Animation - 14']
+        assert len(releases) == 51
+        assert releases[:3] == ['Sword Gai The Animation S2 (01-12)', 'Ongaku Shoujo - 01', 'Hyakuren no Haou to Seiyaku no Valkyria - 01']
 
 
 @pytest.mark.usefixtures('clean_guid_file')
-@patch('guid.read', return_value='FYDRA5XVUJEG4DSMUDIBF4PJFHDMVHOC')
+@patch('guid.read', return_value='ADISBI5CRITGTIC5CSKE4TMA7BQS6SYD')
 def test_hourly_releases_returns_two_newest_entries(mock, rss_xml):
     with patch('hs.rss.parse', return_value=rss_xml):
         releases = main.hourly_releases()
         assert len(releases) == 2
-        assert releases == ['Ongaku Shoujo - 01', 'Hyakuren no Haou to Seiyaku no Valkyria - 01']
+        assert releases == ['Sword Gai The Animation S2 (01-12)', 'Ongaku Shoujo - 01']
 
 
 def test_daily_releases_return_all_entries(frontpage_html_raw):

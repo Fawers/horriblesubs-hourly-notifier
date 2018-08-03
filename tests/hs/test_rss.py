@@ -14,4 +14,4 @@ def test_parse(get: MagicMock, rss_xml_raw):
 
     get.assert_called_once_with(hs.rss.URL)
     response.raise_for_status.assert_called_once()
-    assert len(rss.findall('.//item')) == 50
+    assert len(rss.findall('.//item')) == 51
