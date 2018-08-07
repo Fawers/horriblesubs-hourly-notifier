@@ -52,13 +52,16 @@ def test_daily_releases_return_all_entries(frontpage_html_raw):
         {'title': 'Planet With', 'url': '/shows/planet-with', 'time': '07:30'},
         {'title': 'Hanebado!', 'url': '/shows/hanebado', 'time': '09:00'},
         {'title': "Chi's Sweet Adventure S2", 'url': '/shows/chis-sweet-adventure-s2', 'time': '11:00'},
-        {'title': 'Gintama', 'url': '/shows/gintama', 'time': '11:00'}
+        {'title': 'Gintama', 'url': '/shows/gintama', 'time': '11:00'},
+        {'time': '05:55', 'title': 'THE iDOLM@STER CINDERELLA GIRLS Theater (TV)', 'url': '/shows/the-idolmster-cinderella-girls-theater'}
     ]
 
 
 @pytest.mark.parametrize('input,expected', [
     ([{'title': 'Island', 'url': '/shows/island', 'time': '07:30'}], ['[Island](https://horriblesubs.info/shows/island) in 07h30m']),
-    ([{'title': 'Gintama', 'url': '/shows/gintama', 'time': '11:00'}], ['[Gintama](https://horriblesubs.info/shows/gintama) in 11h00m'])
+    ([{'title': 'Gintama', 'url': '/shows/gintama', 'time': '11:00'}], ['[Gintama](https://horriblesubs.info/shows/gintama) in 11h00m']),
+    ([{'time': '05:55', 'title': 'THE iDOLM@STER CINDERELLA GIRLS Theater (TV)', 'url': '/shows/the-idolmster-cinderella-girls-theater'}],
+     ['[THE iDOLM@STER CINDERELLA GIRLS Theater (TV)](https://horriblesubs.info/shows/the-idolmster-cinderella-girls-theater) in 05h55m'])
 ])
 def test_format_dailies(input, expected):
     assert main.format_dailies(input) == expected

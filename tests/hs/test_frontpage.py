@@ -14,4 +14,4 @@ def test_parse(get: MagicMock, frontpage_html_raw):
 
     get.assert_called_once_with(hs.frontpage.URL)
     response.raise_for_status.assert_called_once()
-    assert len(soup.select('.schedule-table td')) == 12
+    assert len(soup.select('.schedule-table td')) == 14
