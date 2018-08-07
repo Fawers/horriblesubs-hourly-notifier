@@ -41,6 +41,10 @@ def daily_releases():
         if 'schedule-widget-show' in release_data['class']:
             a = release_data.select_one('a')
             data = {'title': a.text, 'url': a.get('href', '')}
+            # I would love to treat this generically, but didn't find a way to bypass Cloufare.
+            # Which is good in a way, it means that the tool they develop and maintain works.
+            if 'idolmster' in data['url']:
+                data['title'] = data['title'].replace('[email\xa0protected]', 'iDOLM@STER')
 
         elif 'schedule-widget-time' in release_data['class']:
             data['time'] = release_data.text
