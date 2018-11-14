@@ -35,7 +35,8 @@ jobs:
             - $SSH_FINGERPRINT
 
       - deploy:
-          command: ssh -o $SSH_OPTIONS $REMOTE_HOST $DEPLOY_COMMAND
+          name: Deploy
+          command: ssh -q -o $SSH_OPTIONS $REMOTE_HOST $DEPLOY_COMMAND
 
 workflows:
   version: 2
