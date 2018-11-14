@@ -1,0 +1,53 @@
+version: 2
+
+jobs:
+  test:  # runs flake8 as an extra step
+    docker:
+      - image: circleci/python:3.6-jessie
+
+    steps:
+      - checkout
+
+      - run:
+          name: Install project dependencies
+          command: sudo pip install -r requirements-tests.txt flake8
+
+      - run:
+          name: Check code quality with flake8
+          command: flake8
+
+      - run:
+          name: Run tests
+          command: python -m pytest -q
+
+  deploy:
+    docker:
+      - image: circleci/python:3.6-jessie
+
+    environment:
+      SSH_OPTIONS: StrictHostKeyChecking=no
+
+    steps:
+      - checkout
+
+      - add_ssh_keys:
+          fingerprints:
+            - $SSH_FINGERPRINT
+
+      - deploy:
+          command: ssh -o $SSH_OPTIONS $REMOTE_HOST $DEPLOY_COMMAND
+
+workflows:
+  version: 2
+
+  test_and_deploy:
+    jobs:
+      - test
+
+      - deploy:
+          requires:
+            - test
+
+          filters:
+            branches:
+              only: master
