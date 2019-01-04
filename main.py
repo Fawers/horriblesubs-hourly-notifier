@@ -39,7 +39,8 @@ def daily_releases():
 
     for release_data in schedule.select('td'):
         if 'schedule-widget-show' in release_data['class']:
-            a = release_data.select_one('a')
+            # On the event that there is no <a> present in a node, fall back to setting `a` to `release_data` itself
+            a = release_data.select_one('a') or release_data
             data = {'title': a.text, 'url': a.get('href', '')}
             # I would love to treat this generically, but didn't find a way to bypass Cloufare.
             # Which is good in a way, it means that the tool they develop and maintain works.
