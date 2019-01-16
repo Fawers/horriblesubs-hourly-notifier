@@ -11,7 +11,6 @@ Tune in for the latest updates.
 | Inspiration |
 | Idea |
 | Contributing |
-| Limitations |
 | Running |
 | Tests |
 | Misc |
@@ -55,9 +54,6 @@ As to _how_ it is done... well, you **are** in the repository page. Go take a lo
 Like the idea and want to share some knowledge? You're more than welcome to do so!  
 Just follow the standard guidelines and you're good to go:
 fork, checkout to new branch, code, test, (or test, and then code), PR.
-
-## Limitations
-The code runs on a machine running CentOS with Python 3.4. In case you want to contribute, you just have to keep that in mind.
 
 ## Running
 Two environment variables are needed in order to run [self](#): `TGBOT` and `TGCHANNEL`, where:
