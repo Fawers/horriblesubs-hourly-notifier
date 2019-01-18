@@ -1,5 +1,6 @@
 import os
 import re
+from datetime import datetime
 from itertools import takewhile
 from xml.etree.ElementTree import Element
 
@@ -60,7 +61,10 @@ def format_dailies(releases):
 
 if __name__ == '__main__':
     if 'daily' in os.sys.argv:
-        releases = ['Releases in the next 24 hours:'] + format_dailies(daily_releases())
+        releases = [
+            '#' + datetime.now().strftime('%A').lower(),
+            'Releases in the next 24 hours:'
+        ] + format_dailies(daily_releases())
 
     else:
         releases = hourly_releases()
