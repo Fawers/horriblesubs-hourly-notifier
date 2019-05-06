@@ -81,7 +81,7 @@ if __name__ == '__main__':
         hs.links.cache_from_releases(releases)
 
         releases = [
-            now.strftime('#%A, %-m/%-d').lower(),
+            '#{}, {:%-m/%-d %H:%M %Z}'.format(now.strftime('%A').lower(), now),
             'Releases in the next 24 hours (estimates):',
         ] + format_dailies(releases, now)
 
