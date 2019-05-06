@@ -28,7 +28,7 @@ def hourly_releases():
     halt_point = determine_last_show(rss, last_guid)
 
     entries = takewhile(lambda e: e is not halt_point, rss.iterfind('channel/item'))
-    releases = [PATTERN.match(entry.find('title').text).group('title') for entry in entries]
+    releases = (PATTERN.match(entry.find('title').text).group('title').rpartition(' - ') for entry in entries)
     guidfile.write(newest_guid)
     return releases
 
@@ -86,7 +86,7 @@ if __name__ == '__main__':
         ] + format_dailies(releases, now)
 
     else:
-        releases = hourly_releases()
+        releases = hs.links.get_from_releases(hourly_releases())
 
     if releases:
         bot.send_to_channel('\n'.join(releases))

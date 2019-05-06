@@ -1,13 +1,19 @@
 import re
-import unicodedata
-from typing import List
+from typing import List, Tuple
 from datetime import timedelta
+from unicodedata import normalize
 
 import redis
 
 
 REPLACEMENT_PATTERN = re.compile(r'[^a-z0-9]')
 ONE_DAY = timedelta(days=1)
+
+
+def _title_to_key(title: str) -> str:
+    return 'hs:' + REPLACEMENT_PATTERN.sub(
+        '',
+        normalize('NFKD', title).lower())
 
 
 def cache_from_releases(releases: List[dict]) -> None:
@@ -23,12 +29,29 @@ def cache_from_releases(releases: List[dict]) -> None:
     client = redis.Redis()
 
     for release in (r for r in releases if r.get('url')):  # filter out releases without a url
-        title = unicodedata.normalize('NFKD', release['title'].lower())
-        title = REPLACEMENT_PATTERN.sub('', title)
-
-        client.setex(f'hs:{title}', ONE_DAY, release['url'])
+        key_name = _title_to_key(release['title'])
+        client.setex(key_name, ONE_DAY, release['url'])
 
 
-def get(key_name: str) -> str:
-    "Gets and returns the value under `key_name` on Redis. Returns empty string if not found."
-    return redis.Redis().get(key_name) or ''
+def get_from_releases(releases: List[Tuple[str, str, str]]) -> List[str]:
+    """
+    Gets available links for the given releases and returns them markdown-formatted.
+
+    get_from_releases takes a list of releases generated in `main.hourly_releases` and checks for the existence
+    of keys whose names correspond to the names of each release. The output is a markdown-formatted string
+    created from the URL to the release and its name when the key exists, or just the release itself otherwise.
+    """
+    output = []
+    client = redis.Redis()
+
+    for release in releases:
+        key_name = _title_to_key(release[0])
+        url = client.get(key_name)
+
+        if url is not None:
+            output.append('[{0}](https://horriblesubs.info{url}) - {2}'.format(*release, url=url.decode()))
+
+        else:
+            output.append(''.join(release))
+
+    return output
