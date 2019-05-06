@@ -1,1 +1,1 @@
-from . import rss, frontpage  # noqa
+from . import rss, frontpage, links  # noqa
