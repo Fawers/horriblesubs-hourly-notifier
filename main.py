@@ -1,7 +1,7 @@
 import os
 import re
-from datetime import datetime
 from itertools import takewhile
+from datetime import datetime, timezone
 from xml.etree.ElementTree import Element
 
 import hs
@@ -10,6 +10,7 @@ from telegram import bot
 
 
 PATTERN = re.compile(r'^\[HorribleSubs\] (?P<title>.*?) \[720p\](?:\.mkv| \(Batch\))$')
+HORRIBLE_SUBS = 'https://horriblesubs.info'
 
 
 def determine_last_show(rss: Element, guid: str) -> Element:
@@ -55,16 +56,34 @@ def daily_releases():
     return releases
 
 
-def format_dailies(releases):
-    return [f"[{r['title']}](https://horriblesubs.info{r['url']}) in {r['time'].replace(':', 'h')}m" for r in releases]
+def format_dailies(releases, now):
+    output = []
+    time_format = '%H:%M %Z'
+
+    for release in releases:
+        time_local = release['time'].split(':')
+        time_local = now.replace(hour=int(time_local[0]), minute=int(time_local[1]))
+        time_utc = time_local.astimezone(timezone.utc)
+
+        output.append("[{title}]({url}) at {local} ({utc})".format(
+            title=release['title'],
+            url=HORRIBLE_SUBS + release['url'],
+            local=time_local.strftime(time_format),
+            utc=time_utc.strftime(time_format)))
+
+    return output
 
 
 if __name__ == '__main__':
     if 'daily' in os.sys.argv:
+        now = datetime.now().astimezone()
+        releases = daily_releases()
+        hs.links.cache_from_releases(releases)
+
         releases = [
-            '#' + datetime.now().strftime('%A').lower(),
-            'Releases in the next 24 hours:'
-        ] + format_dailies(daily_releases())
+            now.strftime('#%A, %-m/%-d').lower(),
+            'Releases in the next 24 hours (estimates):',
+        ] + format_dailies(releases, now)
 
     else:
         releases = hourly_releases()
