@@ -23,7 +23,7 @@ def hourly_releases():
     last_guid = guidfile.read()
 
     if newest_guid == last_guid:  # no new entries since last run
-        return []
+        return iter([])
 
     halt_point = determine_last_show(rss, last_guid)
 
