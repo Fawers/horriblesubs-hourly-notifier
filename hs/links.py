@@ -1,3 +1,4 @@
+import os
 import re
 from typing import List, Tuple
 from datetime import timedelta
@@ -26,7 +27,7 @@ def cache_from_releases(releases: List[dict]) -> None:
 
     releases is a list of dicts whose keys are `title`, `url`, and `time` (as defined in `main.daily_releases`).
     """
-    client = redis.Redis()
+    client = redis.Redis(host=os.environ.get('REDIS_HOST', 'localhost'))
 
     for release in (r for r in releases if r.get('url')):  # filter out releases without a url
         key_name = _title_to_key(release['title'])
@@ -42,14 +43,14 @@ def get_from_releases(releases: List[Tuple[str, str, str]]) -> List[str]:
     created from the URL to the release and its name when the key exists, or just the release itself otherwise.
     """
     output = []
-    client = redis.Redis()
+    client = redis.Redis(host=os.environ.get('REDIS_HOST', 'localhost'))
 
     for release in releases:
         key_name = _title_to_key(release[0])
         url = client.get(key_name)
 
         if url is not None:
-            output.append('[{0}](https://horriblesubs.info{url}) - {2}'.format(*release, url=url.decode()))
+            output.append('<a href="https://horriblesubs.info{url}">{0}</a> – {2}'.format(*release, url=url.decode()))
 
         else:
             output.append(''.join(release))

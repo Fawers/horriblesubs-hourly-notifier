@@ -9,4 +9,4 @@ BOT = telepot.Bot(os.getenv('TGBOT'))
 
 
 def send_to_channel(message):
-    BOT.sendMessage(CHANNEL, message, parse_mode='markdown')
+    BOT.sendMessage(CHANNEL, message, parse_mode='html')

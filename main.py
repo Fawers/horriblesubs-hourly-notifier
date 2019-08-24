@@ -65,7 +65,7 @@ def format_dailies(releases, now):
         time_local = now.replace(hour=int(time_local[0]), minute=int(time_local[1]))
         time_utc = time_local.astimezone(timezone.utc)
 
-        output.append("[{title}]({url}) at {local} ({utc})".format(
+        output.append("<a href=\"{url}\">{title}</a> at {local} ({utc})".format(
             title=release['title'],
             url=HORRIBLE_SUBS + release['url'],
             local=time_local.strftime(time_format),
