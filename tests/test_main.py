@@ -62,10 +62,10 @@ def test_daily_releases_return_all_entries(frontpage_html_raw):
 
 
 @pytest.mark.parametrize('input,expected', [
-    ([{'title': 'Island', 'url': '/shows/island', 'time': '07:30'}], ['[Island](https://horriblesubs.info/shows/island) at 07:30 PDT (14:30 UTC)']),
-    ([{'title': 'Gintama', 'url': '/shows/gintama', 'time': '11:00'}], ['[Gintama](https://horriblesubs.info/shows/gintama) at 11:00 PDT (18:00 UTC)']),
+    ([{'title': 'Island', 'url': '/shows/island', 'time': '07:30'}], ['<a href="https://horriblesubs.info/shows/island">Island</a> at 07:30 PDT (14:30 UTC)']),
+    ([{'title': 'Gintama', 'url': '/shows/gintama', 'time': '11:00'}], ['<a href="https://horriblesubs.info/shows/gintama">Gintama</a> at 11:00 PDT (18:00 UTC)']),
     ([{'time': '05:55', 'title': 'THE iDOLM@STER CINDERELLA GIRLS Theater (TV)', 'url': '/shows/the-idolmster-cinderella-girls-theater'}],
-     ['[THE iDOLM@STER CINDERELLA GIRLS Theater (TV)](https://horriblesubs.info/shows/the-idolmster-cinderella-girls-theater) at 05:55 PDT (12:55 UTC)'])
+     ['<a href="https://horriblesubs.info/shows/the-idolmster-cinderella-girls-theater">THE iDOLM@STER CINDERELLA GIRLS Theater (TV)</a> at 05:55 PDT (12:55 UTC)'])
 ])
 def test_format_dailies(input, expected):
     now = datetime(2019, 5, 5, 0, 5, tzinfo=timezone(timedelta(hours=-7), 'PDT'))
